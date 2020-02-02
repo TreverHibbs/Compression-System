@@ -1,6 +1,9 @@
-#ifndef BITSTREAM_H
-#define BITSTREAM_H
+#ifndef BITSTREAM_H     
+#define BITSTREAM_H     
+#include<stdio.h>
 #include <stdbool.h>
+#include <unistd.h>
+#include <fcntl.h>
 
 #define MAX_CODE_BITS   24
 #define CHAR_BITS       8
@@ -10,9 +13,16 @@
 
 /* module only supports codes with 8 to 24 bit width */
 
+typedef struct context_s {
+    char* path;
+    int fd;
+    char* buffer;
+    int attempt;
+} Context;
+
 typedef struct _bitStream {
-    int (*readFunc)(void* context);
-    void (*writeFunc)(unsigned char c, void* context);
+    int (*readFunc)(Context* context);
+    void (*writeFunc)(unsigned char c, Context* context);
     void* context;
     int direction;              // input or output
     unsigned int extraCount;    // number of bits held in extraBits
@@ -20,7 +30,11 @@ typedef struct _bitStream {
     unsigned int byteCount;     // # of bytes read/written from/to fd
 } BitStream;
 
-BitStream* openInputBitStream(int (*readFunc)(void* context), void* context);
+Context* initContext(int attempt, char* buffer, char* path);
+
+int readFunc(Context* context);
+
+BitStream* openInputBitStream(int (*readFunc)(Context* context), Context* context);
 
 BitStream* openOutputBitStream(void (*writeFunc)(unsigned char c, void* context), void* context);
 

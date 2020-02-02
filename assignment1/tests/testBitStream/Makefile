@@ -2,18 +2,23 @@
 CC=gcc
 LZWLIB=../../lzwLib/
 INCLUDE=../../lzwLib/include/
-CFLAGS=-c -Wall -pedantic -std=c99 -g
+OFLAGS=-c -Wall -pedantic -std=c99 -g
+CFLAGS=-Wall -pedantic -std=c99 -g -o test.out
 CFILES=./main.c
+OFILES=./strcmp.o ./bitStream.o
 UTILCFILES=$(LZWLIB)strcmp.c
 
 UTILDIR=../../lzwLib
 UTILLIB=$(UTILDIR)liblzw.a
 
-test.out: strcmp.o $(INCLUDE)strcmp.h $(CFILES)
-	$(CC) -Wall -pedantic -std=c99 -g -o test.out $(CFILES) strcmp.o -I$(INCLUDE)
+test.out: $(OFILES) $(INCLUDE)strcmp.h $(INCLUDE)bitStream.h $(CFILES) 
+	$(CC) $(CFLAGS) $(CFILES) $(OFILES) -I$(INCLUDE)
 
 strcmp.o: $(UTILCFILES) $(INCLUDE)strcmp.h
-	gcc $(CFLAGS) $(UTILCFILES) -I$(INCLUDE)
+	gcc $(OFLAGS) $(UTILCFILES) -I$(INCLUDE)
+
+bitStream.o: $(LZWLIB)bitStream.c $(INCLUDE)bitStream.h
+	gcc $(OFLAGS) $(LZWLIB)bitStream.c -I$(INCLUDE)
 
 clean:
-	rm -f test.out strcmp.o
+	rm -f test.out strcmp.o bitStream.o
