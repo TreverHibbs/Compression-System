@@ -9,11 +9,11 @@ UTILCFILES=$(LZWLIB)strcmp.c
 UTILDIR=../../lzwLib
 UTILLIB=$(UTILDIR)liblzw.a
 
-strcmp.o: $(UTILCFILES) $(INCLUDE)strcmp.h
-	gcc $(CFLAGS) $(UTILCFILES) -I$(INCLUDE)
-
 test.out: strcmp.o $(INCLUDE)strcmp.h $(CFILES)
 	$(CC) -Wall -pedantic -std=c99 -g -o test.out $(CFILES) strcmp.o -I$(INCLUDE)
+
+strcmp.o: $(UTILCFILES) $(INCLUDE)strcmp.h
+	gcc $(CFLAGS) $(UTILCFILES) -I$(INCLUDE)
 
 clean:
 	rm -f test.out strcmp.o

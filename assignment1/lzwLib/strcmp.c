@@ -21,10 +21,4 @@ int strcmp(const char *str1, const char *str2){
     }
 
     return(0);
-    
-    //while *str1 != '/0'
-        //check if str1[i] == str2[i]
-            //if they dont equal return 0
-            //if they do equal increment i
-            //and ocmpare again.
 }

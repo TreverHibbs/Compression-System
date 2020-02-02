@@ -21,5 +21,8 @@ dict.o: dict.c $(INCLUDE)dict.h $(INCLUDE)sequence.h
 sequence.o: sequence.c $(INCLUDE)sequence.h
 	gcc $(CFLAGS) sequence.c
 
+strcmp.o: strcmp.c $(INCLUDE)strcmp.h
+	gcc $(CFLAGS) strcmp.c
+
 clean:
-	rm -f liblzw.a lzwEncode.o lzwDecode.o bitStream.o dict.o sequence.o
+	rm -f liblzw.a lzwEncode.o lzwDecode.o bitStream.o dict.o sequence.o strcmp.o
