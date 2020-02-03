@@ -94,6 +94,9 @@ int main(int argc, char **argv){
         int value = readFunc(context);
         if(value != 0){
             printf("good returned %i\n", value);
+	    printf("context buff is %s\n", context->buffer);
+            value = readFunc(context);
+	    printf("context buff is %s\n", context->buffer);
         }else{
             printf("failed\n");
         }
@@ -102,7 +105,7 @@ int main(int argc, char **argv){
         unsigned char c = 's';
         printf("Running writeFunc\n");
         writeFunc(c, context);
-        printf("good not return value\n");
+        printf("good no return value\n");
         freeContext(context);
     }else{
         printf("Invalid test flag\n");

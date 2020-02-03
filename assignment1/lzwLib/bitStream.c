@@ -15,7 +15,7 @@ Context* initContext(int attempt, char* path){
     
     context->attempt=attempt;
     context->buffer= malloc(sizeof(char)*attempt);
-    context->fd = open (path, O_RDWR, 0666);
+    context->fd = open (path, O_RDWR | O_APPEND, 0666);
     if (context->fd < 0){
         printf("open returned negative number\n");
     }
@@ -50,8 +50,9 @@ int readFunc(Context* context){
 }
 
 void writeFunc(unsigned char c, Context* context){
-    /* write data to the file specified in the context object. */
-
+    /* write c to the file specified in the context object. */
+    write(context->fd, &c, sizeof(char));	    
+        
     return;
 }
 
@@ -74,7 +75,7 @@ BitStream* openInputBitStream(int (*readFunc)(Context* context), Context* contex
 BitStream* openOutputBitStream(void (*writeFunc)(unsigned char c,Context* context),Context* context) {
     BitStream* bitStream = malloc(sizeof(BitStream));
 
-    bitStream->readFunc = writeFunc;
+    bitStream->writeFunc = writeFunc;
     bitStream->context = context;
     bitStream->direction = 0; //0 indicates and ouput direction.
     bitStream->extraCount = 0; //Amount of bits that are not yet written.
