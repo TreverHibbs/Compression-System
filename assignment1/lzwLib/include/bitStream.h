@@ -32,11 +32,13 @@ Context* initContext(int attempt, char* path);
 
 int readFunc(Context* context);
 
+void writeFunc(unsigned char c, Context* context);
+
 void freeContext(Context* context);
 
 BitStream* openInputBitStream(int (*readFunc)(Context* context), Context* context);
 
-BitStream* openOutputBitStream(void (*writeFunc)(unsigned char c, void* context), void* context);
+BitStream* openOutputBitStream(void (*writeFunc)(unsigned char c, Context* context), Context* context);
 
 /* free bs, flush any remaining bits if its an output direction */
 void closeAndDeleteBitStream(BitStream* bs);

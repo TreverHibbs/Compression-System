@@ -49,6 +49,11 @@ int readFunc(Context* context){
     return(actual);
 }
 
+void writeFunc(unsigned char c, Context* context){
+
+    return(0);
+}
+
 BitStream* openInputBitStream(int (*readFunc)(Context* context), Context* context) {
     /*
     This function will initialize a BitStream object.
@@ -71,7 +76,7 @@ BitStream* openInputBitStream(int (*readFunc)(Context* context), Context* contex
     return (bitStream);
 }
 
-BitStream* openOutputBitStream(void (*writeFunc)(unsigned char c,void* context),void* context) {
+BitStream* openOutputBitStream(void (*writeFunc)(unsigned char c,Context* context),Context* context) {
     return NULL;
 }
 
