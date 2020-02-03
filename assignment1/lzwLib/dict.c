@@ -1,7 +1,12 @@
 #include <stdlib.h>
 #include <dict.h>
 
+
+
 Dict* newDict(unsigned long long hashSize) {
+    /*
+    A dict will be a dyncamic array.
+    */
     return NULL;
 }
 

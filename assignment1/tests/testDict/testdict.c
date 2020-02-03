@@ -1,10 +1,11 @@
 #include <stdio.h>
 #include <dict.h>
+#include <strcmp.h>
 
 int main(int argc, char **argv){
     int test_method_flag = 0;
     int i = 1;
-    unsigned int code_size = 2;
+    //unsigned int code_size = 2;
 
     if(argc <= 1) {
         printf("no arguments\n");
@@ -34,7 +35,8 @@ int main(int argc, char **argv){
 
     if(test_method_flag == 0){
         printf("Running newDict\n");
-        if(newDict(1) == NULL){
+        void *out = newDict(1);
+        if(out == NULL){
             printf("success returned NULL\n");
         }else{
             printf("failed\n");
@@ -42,19 +44,19 @@ int main(int argc, char **argv){
     }else if(test_method_flag == 1){
         printf("Running deleteDictDeep\n");
         deleteDictDeep(NULL);
-        printf("good no return");
+        printf("good no return\n");
     }else if(test_method_flag == 2){
         printf("Running searchDict\n");
-        void* out = searchDict(NULL, NULL, NULL);
-        if(out == NULL){
-            printf("success returned NULL\n");
+        bool out = searchDict(NULL, NULL, NULL);
+        if(out == false){
+            printf("success returned false\n");
         }else{
             printf("fail\n");
         }
     }else if(test_method_flag == 3){
         printf("Running insertDict\n");
         insertDict(NULL, NULL, 1);
-        printf("good no return");
+        printf("good no return\n");
     }else{
         printf("Invalid test flag\n");
     }

@@ -2,8 +2,6 @@
 #define BITSTREAM_H     
 #include<stdio.h>
 #include <stdbool.h>
-#include <unistd.h>
-#include <fcntl.h>
 #include <stdlib.h>
 
 #define MAX_CODE_BITS   24
@@ -32,9 +30,9 @@ typedef struct _bitStream {
 
 Context* initContext(int attempt, char* path);
 
-void freeContext(Context* context);
-
 int readFunc(Context* context);
+
+void freeContext(Context* context);
 
 BitStream* openInputBitStream(int (*readFunc)(Context* context), Context* context);
 

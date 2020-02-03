@@ -1,4 +1,8 @@
 #include <stdlib.h>
+#include<stdio.h>
+#include <unistd.h>
+#include <fcntl.h>
+#include <stdlib.h>
 #include <bitStream.h>
 
 Context* initContext(int attempt, char* path){

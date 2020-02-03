@@ -1,5 +1,6 @@
 #ifndef SEQUENCE_H
 #define SEQUENCE_H
+#include <stdlib.h>
 #include <stdbool.h>
 
 typedef struct _sequence {

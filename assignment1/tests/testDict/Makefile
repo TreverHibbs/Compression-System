@@ -5,7 +5,7 @@ INCLUDE=../../lzwLib/include/
 OFLAGS=-c -Wall -pedantic -std=c99 -g
 CFLAGS=-Wall -pedantic -std=c99 -g -o test.out
 CFILES=./testdict.c
-OFILES=./dict.o
+OFILES=./dict.o $(LZWLIB)strcmp.o
 UTILCFILES=$(LZWLIB)strcmp.c
 
 CUNIT=/usr/share/doc/libcunit1
