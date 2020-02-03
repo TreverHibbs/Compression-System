@@ -1,36 +1,63 @@
-
-#include<header.h>
+#include <stdio.h>
 #include <dict.h>
 
-void test_newDict(void){
-    CU_ASSERT(newDict(200) == NULL);
-}
+int main(int argc, char **argv){
+    int test_method_flag = 0;
+    int i = 1;
+    unsigned int code_size = 2;
 
-int main (void)// Main function
-{
+    if(argc <= 1) {
+        printf("no arguments\n");
+        return(-1);
+    }
 
-CU_pSuite pSuite1 = NULL;
+    while(i < argc){
+        if(strcmp(argv[i++], "-t")){
+            if(strcmp(argv[i], "newDict")){
+                test_method_flag = 0;
+            }else if(strcmp(argv[i], "deleteDictDeep")){
+                test_method_flag = 1;
+            }else if(strcmp(argv[i], "searchDict")){
+                test_method_flag = 2;
+            }else if(strcmp(argv[i], "insertDict")){
+                test_method_flag = 3;
+            }else{
+                printf("no argument for -t\n");
+                return(-1);
+            }
+            i++;
+        }else{
+            printf("invalid or no flags\n");
+            return(-1);
+        }
+    }
 
-// Initialize CUnit test registry
-if (CUE_SUCCESS != CU_initialize_registry())
-return CU_get_error();
+    if(test_method_flag == 0){
+        printf("Running newDict\n");
+        if(newDict(1) == NULL){
+            printf("success returned NULL\n");
+        }else{
+            printf("failed\n");
+        }
+    }else if(test_method_flag == 1){
+        printf("Running deleteDictDeep\n");
+        deleteDictDeep(NULL);
+        printf("good no return");
+    }else if(test_method_flag == 2){
+        printf("Running searchDict\n");
+        void* out = searchDict(NULL, NULL, NULL);
+        if(out == NULL){
+            printf("success returned NULL\n");
+        }else{
+            printf("fail\n");
+        }
+    }else if(test_method_flag == 3){
+        printf("Running insertDict\n");
+        insertDict(NULL, NULL, 1);
+        printf("good no return");
+    }else{
+        printf("Invalid test flag\n");
+    }
 
-// Add suite1 to registry
-pSuite1 = CU_add_suite("my_Suite1", NULL, NULL);
-if (NULL == pSuite1) {
-CU_cleanup_registry();
-return CU_get_error();
-}
-
-// add test1 to suite1
-if ((NULL == CU_add_test(pSuite1, "\n\n……… Testing newDict function……..\n\n", test_newDict)))
-{
-CU_cleanup_registry();
-return CU_get_error();
-}
-
-CU_basic_run_tests();// OUTPUT to the screen
-CU_cleanup_registry();//Cleaning the Registry
-return CU_get_error();
-
+    return(1);
 }

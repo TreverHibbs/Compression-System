@@ -1,11 +1,13 @@
 #include <stdio.h>
 #include <strcmp.h>
 #include <bitStream.h>
-#include <stdlib.h>
 
 int main(int argc, char **argv){
     int test_method_flag = 0;
     int i = 1;
+    unsigned int code_size = 2;
+    Context *context = initContext(code_size, "./test_input.txt");
+
     if(argc <= 1) {
         printf("no arguments\n");
         return(-1);
@@ -40,16 +42,15 @@ int main(int argc, char **argv){
 
     if(test_method_flag == 0){
         printf("Running openInputBitStream\n");
-        char buffer[16];
-        if(openInputBitStream(readFunc, initContext(16, buffer, "./test_input.txt")) == NULL){
-            printf("returned NULL\n");
+        if(openInputBitStream(readFunc, context) != NULL){
+            printf("success returned pointer\n");
         }else{
-            printf("failed");
+            printf("failed\n");
         }
     }else if(test_method_flag == 1){
         printf("Running openOutputBitStream\n");
         if(openOutputBitStream(NULL, NULL) == NULL){
-            printf("returned NULL\n");
+            printf("success return NULL\n");
         }else{
             printf("failed");
         }
@@ -62,29 +63,35 @@ int main(int argc, char **argv){
         outputBits(NULL, 1, 1);
         printf("good no return");
     }else if(test_method_flag == 4){
+        BitStream* bs = openInputBitStream(readFunc, context);
+        unsigned int* code;
         printf("Running readInBits\n");
-        if(readInBits(NULL, 1, NULL) == true){
-            printf("returned true\n");
+        bool out = readInBits(bs, code_size, code);
+        if(out == true){
+            printf("succes returned true\n");
         }else{
             printf("failed");
         }
+        closeAndDeleteBitStream(bs);
     }else if(test_method_flag == 5){
         printf("Running initContext()\n");
-        char buffer[16];
-        void *pointer = initContext(16, buffer, "./test_input.txt");
+        Context *pointer = initContext(code_size, "./test_input.txt");
         if(pointer != NULL){
-            printf("good returned non NULL pointer -> %p\n", pointer);
+            printf("good returned non NULL pointer.\n");
             free(pointer);
         }else{
             printf("failed\n");
         }
     }else if(test_method_flag == 6){
+
         printf("Running readFunc\n");
-        if(readFunc(NULL) == 1){
-            printf("good returned 1\n");
+        int value = readFunc(context);
+        if(value != 0){
+            printf("good returned %i\n", value);
         }else{
-            printf("failed");
+            printf("failed\n");
         }
+        freeContext(context);
     }else{
         printf("Invalid test flag\n");
     }

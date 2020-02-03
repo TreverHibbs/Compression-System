@@ -4,6 +4,7 @@
 #include <stdbool.h>
 #include <unistd.h>
 #include <fcntl.h>
+#include <stdlib.h>
 
 #define MAX_CODE_BITS   24
 #define CHAR_BITS       8
@@ -14,7 +15,6 @@
 /* module only supports codes with 8 to 24 bit width */
 
 typedef struct context_s {
-    char* path;
     int fd;
     char* buffer;
     int attempt;
@@ -23,14 +23,16 @@ typedef struct context_s {
 typedef struct _bitStream {
     int (*readFunc)(Context* context);
     void (*writeFunc)(unsigned char c, Context* context);
-    void* context;
+    Context* context;
     int direction;              // input or output
     unsigned int extraCount;    // number of bits held in extraBits
     unsigned int extraBits;     // bits buffer
     unsigned int byteCount;     // # of bytes read/written from/to fd
 } BitStream;
 
-Context* initContext(int attempt, char* buffer, char* path);
+Context* initContext(int attempt, char* path);
+
+void freeContext(Context* context);
 
 int readFunc(Context* context);
 
