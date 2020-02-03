@@ -29,6 +29,8 @@ int main(int argc, char **argv){
                 test_method_flag = 5;
             }else if(strcmp(argv[i], "readFunc")){
                 test_method_flag = 6;
+            }else if(strcmp(argv[i], "writeFunc")){
+                test_method_flag = 7;
             }else{
                 printf("no argument for -t\n");
                 return(-1);
@@ -49,11 +51,15 @@ int main(int argc, char **argv){
         }
     }else if(test_method_flag == 1){
         printf("Running openOutputBitStream\n");
-        if(openOutputBitStream(NULL, NULL) == NULL){
-            printf("success return NULL\n");
+        BitStream* bs = openOutputBitStream(writeFunc, context);
+        if(bs != NULL){
+            printf("success return pointer\n");
+            printf("the context file path is %d\n", bs->context->fd);
+            printf("the direction is %d\n", bs->direction);
         }else{
             printf("failed");
         }
+        closeAndDeleteBitStream(bs);
     }else if(test_method_flag == 2){
         printf("Running closeAndDeleteBitStream\n");
         closeAndDeleteBitStream(NULL);
@@ -91,6 +97,12 @@ int main(int argc, char **argv){
         }else{
             printf("failed\n");
         }
+        freeContext(context);
+    }else if(test_method_flag == 7){
+        unsigned char c = 's';
+        printf("Running writeFunc\n");
+        writeFunc(c, context);
+        printf("good not return value\n");
         freeContext(context);
     }else{
         printf("Invalid test flag\n");

@@ -50,8 +50,9 @@ int readFunc(Context* context){
 }
 
 void writeFunc(unsigned char c, Context* context){
+    /* write data to the file specified in the context object. */
 
-    return(0);
+    return;
 }
 
 BitStream* openInputBitStream(int (*readFunc)(Context* context), Context* context) {
@@ -59,25 +60,28 @@ BitStream* openInputBitStream(int (*readFunc)(Context* context), Context* contex
     This function will initialize a BitStream object.
     */
     BitStream* bitStream = malloc(sizeof(BitStream));
-    int actual = readFunc(context);
-
-    if(actual == -1){
-        printf("readFunc returned -1\n");
-        return NULL;
-    }
 
     bitStream->readFunc = readFunc;
     bitStream->context = context;
     bitStream->direction = 1; //1 indicates and input direction.
     bitStream->extraCount = 0; //irelavent for input bitStream.
     bitStream->extraBits = 0; //irelavent for input bitStream.
-    bitStream->byteCount = actual;
+    bitStream->byteCount = 0;
     
     return (bitStream);
 }
 
 BitStream* openOutputBitStream(void (*writeFunc)(unsigned char c,Context* context),Context* context) {
-    return NULL;
+    BitStream* bitStream = malloc(sizeof(BitStream));
+
+    bitStream->readFunc = writeFunc;
+    bitStream->context = context;
+    bitStream->direction = 0; //0 indicates and ouput direction.
+    bitStream->extraCount = 0; //Amount of bits that are not yet written.
+    bitStream->extraBits = 0; //The bits that have not been written.
+    bitStream->byteCount = 0;
+    
+    return (bitStream);
 }
 
 void closeAndDeleteBitStream(BitStream* bs) {
