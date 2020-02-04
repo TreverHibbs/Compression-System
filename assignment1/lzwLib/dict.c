@@ -15,13 +15,7 @@ Dict* newDict(unsigned long long hashSize) {
 }
 
 void deleteDictDeep(Dict* dict) {
-int i = 0;
-    while(i < (dict->hashSize)){
-        if(((*dict->table) + i) != NULL){
-           deleteSequence((*dict->table)+i);
-        }
-	i++;
-    }
+    free(*dict->table);
     free(dict->table);
     free(dict);    
     return;    
@@ -40,6 +34,13 @@ bool searchDict(Dict* dict, Sequence* key, unsigned int* code) {
 void insertDict(Dict* dict, Sequence* key, unsigned int code) {
     //store the key in the hash table.
     key->code = code;
-	(*(dict[key->hash]).table) = key;
+    
+    (*(dict[key->hash]).table)->length = key->length;
+    (*(dict[key->hash]).table)->code = key->code;
+    (*(dict[key->hash]).table)->hash = key->hash;
+    (*(dict[key->hash]).table)->bucket = key->bucket;
+    (*(dict[key->hash]).table)->bytes[0] = key->bytes[0];
+    (*(dict[key->hash]).table)->bytes[1] = key->bytes[1];
 
+    deleteSequence(key);
 }
