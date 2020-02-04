@@ -45,7 +45,7 @@ int main(int argc, char **argv){
         }
     }else if(test_method_flag == 1){
         printf("Running deleteDictDeep\n");
-	Dict* myDict = newDict(hashSize);
+	    Dict* myDict = newDict(hashSize);
         deleteDictDeep(myDict);
         printf("good no return\n");
     }else if(test_method_flag == 2){
@@ -57,9 +57,22 @@ int main(int argc, char **argv){
             printf("fail\n");
         }
     }else if(test_method_flag == 3){
+        unsigned int* code = malloc(sizeof(unsigned int*));
+        *code = 0;
+        Dict* myDict = newDict(hashSize);
+        Sequence* mySequence = newSequence('a', hashSize);
         printf("Running insertDict\n");
-        insertDict(NULL, NULL, 1);
+        insertDict(myDict, mySequence, 'a');
+        bool found = searchDict(myDict, mySequence, code);
+        if(found){
+            printf("insert was successfull and found by searchDict\n");
+            printf("code is %u\n", *code);
+        }else{
+            printf("insert was unsuccesfull or was not found by searchDict\n");
+        }
         printf("good no return\n");
+        deleteDictDeep(myDict);
+        free(code);
     }else{
         printf("Invalid test flag\n");
     }
