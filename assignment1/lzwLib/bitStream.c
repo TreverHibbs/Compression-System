@@ -92,12 +92,16 @@ void closeAndDeleteBitStream(BitStream* bs) {
 }
 
 void outputBits(BitStream* bs, unsigned int nBits, unsigned int code) {
+    /* write out the least significant nBits of code to fileStream. */    
 }
 
 bool readInBits(BitStream* bs, unsigned int nBits, unsigned int* code) {
     int actual = 0;
+    //nBits is the number of bits that 
+    //bs will attempt to read.
     bs->context->attempt=nBits;
 
+    //input bits will be stored in context->buffer.
     actual = bs->readFunc(bs->context);
 
     if(actual == -1){
@@ -108,9 +112,7 @@ bool readInBits(BitStream* bs, unsigned int nBits, unsigned int* code) {
         return false;
     }
 
-    //add code here that searches dict for code.
+    (*code)++;
 
     return true;
-
-
 }

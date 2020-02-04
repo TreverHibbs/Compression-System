@@ -4,13 +4,11 @@ LZWLIB=../../lzwLib/
 INCLUDE=../../lzwLib/include/
 OFLAGS=-c -Wall -pedantic -std=c99 -g
 CFLAGS=-Wall -pedantic -std=c99 -g -o test.out
-CFILES=./testdict.c
-OFILES=./dict.o $(LZWLIB)strcmp.o
+CFILES=./test_dict.c
+OFILES=./dict.o $(LZWLIB)sequence.o $(LZWLIB)strcmp.o
 UTILCFILES=$(LZWLIB)strcmp.c
 
-CUNIT=/usr/share/doc/libcunit1
-
-test.out: $(OFILES) $(INCLUDE)dict.h $(CFILES) 
+test.out: $(OFILES) $(INCLUDE)strcmp.h $(INCLUDE)dict.h $(INCLUDE)sequence.h $(CFILES) 
 	$(CC) $(CFLAGS) $(CFILES) $(OFILES) -I$(INCLUDE)
 
 dict.o: $(LZWLIB)dict.c $(INCLUDE)dict.h

@@ -5,6 +5,7 @@
 int main(int argc, char **argv){
     int test_method_flag = 0;
     int i = 1;
+    unsigned long long hashSize = 65536;
     //unsigned int code_size = 2;
 
     if(argc <= 1) {
@@ -35,15 +36,17 @@ int main(int argc, char **argv){
 
     if(test_method_flag == 0){
         printf("Running newDict\n");
-        void *out = newDict(1);
-        if(out == NULL){
-            printf("success returned NULL\n");
+        Dict* out = newDict(hashSize);
+        if(out != NULL){
+            printf("success returned pointer\n");
+	    printf("this is the hashSize of newDict %u\n", out->hashSize);
         }else{
             printf("failed\n");
         }
     }else if(test_method_flag == 1){
         printf("Running deleteDictDeep\n");
-        deleteDictDeep(NULL);
+	Dict* myDict = newDict(hashSize);
+        deleteDictDeep(myDict);
         printf("good no return\n");
     }else if(test_method_flag == 2){
         printf("Running searchDict\n");

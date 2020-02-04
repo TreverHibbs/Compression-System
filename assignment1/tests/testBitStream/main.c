@@ -70,14 +70,18 @@ int main(int argc, char **argv){
         printf("good no return");
     }else if(test_method_flag == 4){
         BitStream* bs = openInputBitStream(readFunc, context);
-        unsigned int* code;
+        unsigned int* code = malloc(sizeof(unsigned int*));
+	*code = 0;
         printf("Running readInBits\n");
         bool out = readInBits(bs, code_size, code);
         if(out == true){
             printf("succes returned true\n");
+	    printf("bs context buffer is now %s\n", bs->context->buffer);
+	    printf("code is now %i\n", *code);
         }else{
             printf("failed");
         }
+	free(code);
         closeAndDeleteBitStream(bs);
     }else if(test_method_flag == 5){
         printf("Running initContext()\n");

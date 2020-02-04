@@ -5,6 +5,7 @@ Sequence* newSequence(unsigned char firstByte, unsigned long long hashSize) {
     Sequence* mySequence = malloc(sizeof(Sequence));
     mySequence->bytes[0] = firstByte;
     if(hashSize != 0){
+	//use the has function to generate a hash for the current sequence.
         mySequence->bucket = mySequence->bytes[0] % hashSize; 
     } 
 
@@ -31,5 +32,6 @@ unsigned int outputSequence(Sequence* sequence,
 }
 
 bool identicalSequences(Sequence* a, Sequence* b) {
+    
     return true;
 }
