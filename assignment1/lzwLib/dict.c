@@ -28,10 +28,18 @@ int i = 0;
 }
 
 bool searchDict(Dict* dict, Sequence* key, unsigned int* code) {
-    
-    return false;
+    Sequence* sequence = (*(dict[key->hash]).table);
+    if(sequence == NULL){
+        return false;
+    }
+
+    *code = sequence->code;
+    return true;
 }
 
 void insertDict(Dict* dict, Sequence* key, unsigned int code) {
-	
+    //store the key in the hash table.
+    key->code = code;
+	(*(dict[key->hash]).table) = key;
+
 }

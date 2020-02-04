@@ -1,7 +1,7 @@
 #ifndef DICT_H
 #define DICT_H
 #include <stdbool.h>
-#include "sequence.h"
+#include <sequence.h>
 
 /* this module implements a dictionary of Sequences.  Sequences
    are paired with integer codes when inserted and when 

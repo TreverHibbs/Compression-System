@@ -13,3 +13,6 @@ test.out: $(OFILES) $(INCLUDE)strcmp.h $(INCLUDE)dict.h $(INCLUDE)sequence.h $(C
 
 dict.o: $(LZWLIB)dict.c $(INCLUDE)dict.h
 	$(CC) $(OFLAGS) $(LZWLIB)dict.c -I$(INCLUDE)
+
+clean: 
+	rm -f dict.o test.out
