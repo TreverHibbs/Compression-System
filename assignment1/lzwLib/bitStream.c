@@ -5,58 +5,7 @@
 #include <stdlib.h>
 #include <bitStream.h>
 
-Context* initContext(int attempt, char* path){
-    /*
-    Initialize a context structure pointer with default values for read
-    Func. This will provide an easy way to pass parameters to
-    organize necesary data for reading from a file such as the file path.
-    */
-    Context* context = malloc(sizeof(Context));
-    
-    context->attempt=attempt;
-    context->buffer= malloc(sizeof(char)*attempt);
-    context->fd = open (path, O_RDWR | O_APPEND, 0666);
-    if (context->fd < 0){
-        printf("open returned negative number\n");
-    }
-
-    return(context);
-}
-
-void freeContext(Context* context){
-    free(context->buffer);
-    free(context);
-    return;
-}
-
-int readFunc(Context* context){
-    /*
-    This function is meant to be used to get codes one by one from the
-    input file. Each code can be a minimum of 8 bits or a maximum of
-    24 bits. default is 16 bits.
-    */
-    int actual = 0;
-    actual = read(context->fd, context->buffer, context->attempt);
-
-    if(actual == 0){
-        printf("eof reached\n");
-        return(actual);
-    }else if(actual == -1){
-        printf("read returned %i\n", actual);
-        return(actual);
-    }
-
-    return(actual);
-}
-
-void writeFunc(unsigned char c, Context* context){
-    /* write c to the file specified in the context object. */
-    write(context->fd, &c, sizeof(char));	    
-        
-    return;
-}
-
-BitStream* openInputBitStream(int (*readFunc)(Context* context), Context* context) {
+BitStream* openInputBitStream(int (*readFunc)(void* context), void* context) {
     /*
     This function will initialize a BitStream object.
     */
