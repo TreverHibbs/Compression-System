@@ -5,13 +5,13 @@ INCLUDE=../../lzwLib/include/
 OFLAGS=-c -Wall -pedantic -std=c99 -g
 CFLAGS=-Wall -pedantic -std=c99 -g -o test.out
 CFILES=./main.c
-OFILES=./strcmp.o ./bitStream.o
+OFILES=./strcmp.o ./bitStream.o $(LZWLIB)context.o
 UTILCFILES=$(LZWLIB)strcmp.c
 
 UTILDIR=../../lzwLib
 UTILLIB=$(UTILDIR)liblzw.a
 
-test.out: $(OFILES) $(INCLUDE)strcmp.h $(INCLUDE)bitStream.h $(CFILES) 
+test.out: $(OFILES) $(INCLUDE)strcmp.h $(INCLUDE)bitStream.h $(INCLUDE)context.h $(CFILES) 
 	$(CC) $(CFLAGS) $(CFILES) $(OFILES) -I$(INCLUDE)
 
 strcmp.o: $(UTILCFILES) $(INCLUDE)strcmp.h

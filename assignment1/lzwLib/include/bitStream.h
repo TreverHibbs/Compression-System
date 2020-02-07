@@ -12,35 +12,19 @@
 
 /* module only supports codes with 8 to 24 bit width */
 
-typedef struct context_s {
-    FILE *input;
-    FILE *output;
-    int fd;
-    char* buffer;
-    int attempt;
-} Context;
-
 typedef struct _bitStream {
-    int (*readFunc)(Context* context);
-    void (*writeFunc)(unsigned char c, Context* context);
-    Context* context;
+    int (*readFunc)(void* context);
+    void (*writeFunc)(unsigned char c, void* context);
+    void *context;
     int direction;              // input or output
     unsigned int extraCount;    // number of bits held in extraBits
     unsigned int extraBits;     // bits buffer
     unsigned int byteCount;     // # of bytes read/written from/to fd
 } BitStream;
 
-Context* initContext(int attempt, char* path);
+BitStream* openInputBitStream(int (*readFunc)(void* context), void* context);
 
-int readFunc(Context* context);
-
-void writeFunc(unsigned char c, Context* context);
-
-void freeContext(Context* context);
-
-BitStream* openInputBitStream(int (*readFunc)(Context* context), Context* context);
-
-BitStream* openOutputBitStream(void (*writeFunc)(unsigned char c, Context* context), Context* context);
+BitStream* openOutputBitStream(void (*writeFunc)(unsigned char c, void* context), void* context);
 
 /* free bs, flush any remaining bits if its an output direction */
 void closeAndDeleteBitStream(BitStream* bs);

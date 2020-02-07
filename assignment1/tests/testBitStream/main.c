@@ -1,12 +1,13 @@
 #include <stdio.h>
 #include <strcmp.h>
 #include <bitStream.h>
+#include <context.h>
 
 int main(int argc, char **argv){
     int test_method_flag = 0;
     int i = 1;
-    unsigned int code_size = 2;
-    Context *context = initContext(code_size, "./test_input.txt");
+    unsigned int code_size = 16;
+    Context *context = initContext("./test_input.txt");
 
     if(argc <= 1) {
         printf("no arguments\n");
@@ -25,12 +26,6 @@ int main(int argc, char **argv){
                 test_method_flag = 3;
             }else if(strcmp(argv[i], "readInBits")){
                 test_method_flag = 4;
-            }else if(strcmp(argv[i], "initContext")){
-                test_method_flag = 5;
-            }else if(strcmp(argv[i], "readFunc")){
-                test_method_flag = 6;
-            }else if(strcmp(argv[i], "writeFunc")){
-                test_method_flag = 7;
             }else{
                 printf("no argument for -t\n");
                 return(-1);
@@ -44,17 +39,18 @@ int main(int argc, char **argv){
 
     if(test_method_flag == 0){
         printf("Running openInputBitStream\n");
-        if(openInputBitStream(readFunc, context) != NULL){
+        BitStream* bs = openInputBitStream(readFunc, context);
+        if(bs != NULL){
             printf("success returned pointer\n");
         }else{
             printf("failed\n");
         }
+        closeAndDeleteBitStream(bs);
     }else if(test_method_flag == 1){
         printf("Running openOutputBitStream\n");
         BitStream* bs = openOutputBitStream(writeFunc, context);
         if(bs != NULL){
             printf("success return pointer\n");
-            printf("the context file path is %d\n", bs->context->fd);
             printf("the direction is %d\n", bs->direction);
         }else{
             printf("failed");
@@ -62,58 +58,32 @@ int main(int argc, char **argv){
         closeAndDeleteBitStream(bs);
     }else if(test_method_flag == 2){
         printf("Running closeAndDeleteBitStream\n");
-        closeAndDeleteBitStream(NULL);
+        BitStream* bs = openInputBitStream(readFunc, context);
+        closeAndDeleteBitStream(bs);
         printf("good no return");
     }else if(test_method_flag == 3){
         printf("Running outputBits\n");
         outputBits(NULL, 1, 1);
         printf("good no return");
-    }else if(test_method_flag == 4){
+    }else if(test_method_flag == 4){\
+        printf("Preparing to run readInBits\n");
         BitStream* bs = openInputBitStream(readFunc, context);
         unsigned int* code = malloc(sizeof(unsigned int*));
-	*code = 0;
+	    *code = 0;
         printf("Running readInBits\n");
         bool out = readInBits(bs, code_size, code);
         if(out == true){
             printf("succes returned true\n");
-	    printf("bs context buffer is now %s\n", bs->context->buffer);
-	    printf("code is now %i\n", *code);
+            printf("code is %d\n",  *code);
         }else{
-            printf("failed");
+            printf("failed returned false\n");
         }
-	free(code);
+	    free(code);
         closeAndDeleteBitStream(bs);
-    }else if(test_method_flag == 5){
-        printf("Running initContext()\n");
-        Context *pointer = initContext(code_size, "./test_input.txt");
-        if(pointer != NULL){
-            printf("good returned non NULL pointer.\n");
-            free(pointer);
-        }else{
-            printf("failed\n");
-        }
-    }else if(test_method_flag == 6){
-
-        printf("Running readFunc\n");
-        int value = readFunc(context);
-        if(value != 0){
-            printf("good returned %i\n", value);
-	    printf("context buff is %s\n", context->buffer);
-            value = readFunc(context);
-	    printf("context buff is %s\n", context->buffer);
-        }else{
-            printf("failed\n");
-        }
-        freeContext(context);
-    }else if(test_method_flag == 7){
-        unsigned char c = 's';
-        printf("Running writeFunc\n");
-        writeFunc(c, context);
-        printf("good no return value\n");
-        freeContext(context);
     }else{
         printf("Invalid test flag\n");
     }
 
+    deleteContext(context);
     return(1);
 }

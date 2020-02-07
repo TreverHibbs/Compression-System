@@ -3,6 +3,7 @@
 #include <unistd.h>
 #include <fcntl.h>
 #include <stdlib.h>
+#include <errno.h>
 #include <bitStream.h>
 
 BitStream* openInputBitStream(int (*readFunc)(void* context), void* context) {
@@ -21,7 +22,7 @@ BitStream* openInputBitStream(int (*readFunc)(void* context), void* context) {
     return (bitStream);
 }
 
-BitStream* openOutputBitStream(void (*writeFunc)(unsigned char c,Context* context),Context* context) {
+BitStream* openOutputBitStream(void (*writeFunc)(unsigned char c,void* context),void* context) {
     BitStream* bitStream = malloc(sizeof(BitStream));
 
     bitStream->writeFunc = writeFunc;
@@ -35,7 +36,6 @@ BitStream* openOutputBitStream(void (*writeFunc)(unsigned char c,Context* contex
 }
 
 void closeAndDeleteBitStream(BitStream* bs) {
-    freeContext(bs->context);
     free(bs);
     return;
 }
@@ -45,23 +45,28 @@ void outputBits(BitStream* bs, unsigned int nBits, unsigned int code) {
 }
 
 bool readInBits(BitStream* bs, unsigned int nBits, unsigned int* code) {
-    int actual = 0;
+    int tmp = 0;
+    *code = 0;
     //nBits is the number of bits that 
     //bs will attempt to read.
-    bs->context->attempt=nBits;
 
     //input bits will be stored in context->buffer.
-    actual = bs->readFunc(bs->context);
 
-    if(actual == -1){
-        printf("readFunc errored\n");
-        return false;
-    }else if(actual == 0){
-        printf("reached end of file\n");
-        return false;
+
+    tmp = bs->readFunc(bs->context);
+
+    if(tmp < 0){
+        fprintf(stderr, "value of errno: %d\n", tmp);
+        return(false);
+    }else if(tmp == 0){
+        printf("end of file\n");
+        return(false);
     }
 
-    (*code)++;
+    *code = *code | tmp;
+    *code = *code << 8;
+    tmp = bs->readFunc(bs->context);
+    *code = *code | tmp;
 
     return true;
 }

@@ -24,5 +24,8 @@ sequence.o: sequence.c $(INCLUDE)sequence.h
 strcmp.o: strcmp.c $(INCLUDE)strcmp.h
 	gcc $(CFLAGS) strcmp.c
 
+context.o: context.c $(INCLUDE)context.h
+	gcc $(CFLAGS) context.c
+
 clean:
-	rm -f liblzw.a lzwEncode.o lzwDecode.o bitStream.o dict.o sequence.o strcmp.o
+	rm -f liblzw.a lzwEncode.o lzwDecode.o bitStream.o dict.o sequence.o strcmp.o context.o
