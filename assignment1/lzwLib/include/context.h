@@ -1,9 +1,7 @@
 typedef struct context_s {
     FILE *input;
     FILE *output;
-    int fd;
-    char* buffer;
-    int attempt;
+    
 } Context;
 
 

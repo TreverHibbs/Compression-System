@@ -41,7 +41,22 @@ void closeAndDeleteBitStream(BitStream* bs) {
 }
 
 void outputBits(BitStream* bs, unsigned int nBits, unsigned int code) {
-    /* write out the least significant nBits of code to fileStream. */    
+    /* write out the least significant nBits of code to fileStream. */
+    char c1 = 0;
+    char c2 = 0;
+    unsigned int tmp = 0;
+    unsigned short first_byte_mask = 65280;
+    unsigned short second_byte_mask = 255;
+
+    tmp = code & first_byte_mask;
+    c1 = tmp >> 8;
+
+    c2 = code & second_byte_mask;
+
+    bs->writeFunc(c1, bs->context);
+    bs->writeFunc(c2, bs->context);    
+
+    return;
 }
 
 bool readInBits(BitStream* bs, unsigned int nBits, unsigned int* code) {

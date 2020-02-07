@@ -63,8 +63,12 @@ int main(int argc, char **argv){
         printf("good no return");
     }else if(test_method_flag == 3){
         printf("Running outputBits\n");
-        outputBits(NULL, 1, 1);
-        printf("good no return");
+        unsigned int code = 29800;
+        BitStream* bs = openOutputBitStream(writeFunc, context);
+
+        outputBits(bs, code_size, code);
+        printf("good no return\n");
+        closeAndDeleteBitStream(bs);
     }else if(test_method_flag == 4){\
         printf("Preparing to run readInBits\n");
         BitStream* bs = openInputBitStream(readFunc, context);

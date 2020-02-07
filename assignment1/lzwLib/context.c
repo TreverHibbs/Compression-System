@@ -57,8 +57,12 @@ int readFunc(void* context){
 
 void writeFunc(unsigned char c, void* context){
     /* write c to the file specified in the context object. */
-    //write(context->fd, &c, sizeof(char));	    
-    putc(c,((Context*) context)->output);
+    //write(context->fd, &c, sizeof(char));
+
+    fseek(((Context*) context)->output, 0, SEEK_CUR);
+    putc(c ,((Context*) context)->output);
+    fflush(((Context*) context)->output);
+
 
     return;
 }
