@@ -40,10 +40,11 @@ int main(int argc, char **argv){
 
     if(test_method_flag == 0){
         printf("Running newSequence\n");
-        Sequence* mySequence = newSequence('s', 65536);
+        Sequence* mySequence = newSequence('s', hash_size);
         if(mySequence != NULL){
             printf("success returned pointer\n");
             printf("the sequence hash is %llu\n", mySequence->hash);
+            printf("the sequence hash is %d\n", mySequence->bucket);
             printf("the sequence byte is %i\n", mySequence->bytes[0]);
         }else{
             printf("failed\n");

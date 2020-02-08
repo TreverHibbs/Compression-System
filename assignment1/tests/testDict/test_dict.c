@@ -39,10 +39,12 @@ int main(int argc, char **argv){
         Dict* out = newDict(hashSize);
         if(out != NULL){
             printf("success returned pointer\n");
-	    printf("this is the hashSize of newDict %u\n", out->hashSize);
+	        printf("this is the hashSize of newDict %u\n", out->hashSize);
+            printf("this is the pointer to the table %p\n", out->table);
         }else{
             printf("failed\n");
         }
+        deleteDictDeep(out);
     }else if(test_method_flag == 1){
         printf("Running deleteDictDeep\n");
 	    Dict* myDict = newDict(hashSize);
@@ -50,15 +52,22 @@ int main(int argc, char **argv){
         printf("good no return\n");
     }else if(test_method_flag == 2){
         printf("Running searchDict\n");
-        bool out = searchDict(NULL, NULL, NULL);
+        Dict* myDict = newDict(hashSize);
+        Sequence* mySequence = newSequence('a', hashSize);
+        unsigned int* code;
+
+        bool out = searchDict(myDict, mySequence, code);
         if(out == false){
             printf("success returned false\n");
         }else{
             printf("fail\n");
         }
+
+        deleteDictDeep(myDict);
+        deleteSequence(mySequence);
     }else if(test_method_flag == 3){
         unsigned int* code = malloc(sizeof(unsigned int*));
-        *code = 0;
+        *code = 'a';
         Dict* myDict = newDict(hashSize);
         Sequence* mySequence = newSequence('a', hashSize);
         printf("Running insertDict\n");
@@ -70,6 +79,8 @@ int main(int argc, char **argv){
         }else{
             printf("insert was unsuccesfull or was not found by searchDict\n");
         }
+
+        free(mySequence);
         printf("good no return\n");
         deleteDictDeep(myDict);
         free(code);
