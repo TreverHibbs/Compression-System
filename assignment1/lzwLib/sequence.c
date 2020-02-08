@@ -27,7 +27,7 @@ Sequence* copySequenceAppending(Sequence* sequence, unsigned char newByte, unsig
     return sequence;
 }
 
-unsigned int outputSequence(Sequence* sequence, 
+int outputSequence(Sequence* sequence, 
     void (*writeFunc)(unsigned char c, void* context), 
     void* context) {
 

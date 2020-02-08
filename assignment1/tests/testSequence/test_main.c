@@ -1,10 +1,14 @@
 #include <stdio.h>
 #include <strcmp.h>
 #include <sequence.h>
+#include <math.h>
+#include <context.h>
 
 int main(int argc, char **argv){
     int test_method_flag = 0;
     int i = 1;
+    unsigned long long hash_size = pow(2, 16);
+    char *path = "./test.txt";
 
     if(argc <= 1) {
         printf("no arguments\n");
@@ -63,11 +67,17 @@ int main(int argc, char **argv){
         printf("good no return\n");
     }else if(test_method_flag == 3){
         printf("Running outputSequence\n");
-        bool out = outputSequence(NULL, NULL, NULL);
-        if(out == 0){
-            printf("succes returned 0\n");
+        printf("hash size is %llu\n", hash_size);
+
+        Sequence* sequence = newSequence('s', hash_size);
+        sequence = copySequenceAppending(sequence, 'o', hash_size);
+        Context* context = initContext(path);
+
+        int out = outputSequence(sequence, writeFunc, context);
+        if(out == 2){
+            printf("succes returned %i\n", out);
         }else{
-            printf("failed");
+            printf("failed\n");
         }
     }else if(test_method_flag == 4){
         printf("Running identicalSequences\n");

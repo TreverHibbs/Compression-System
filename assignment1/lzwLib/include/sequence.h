@@ -26,7 +26,7 @@ void deleteSequence(Sequence* sequence);
 Sequence* copySequenceAppending(Sequence* sequence, unsigned char newByte, unsigned long long hashSize);
 
 /* write the data bytes of sequence to the FILE* fd, return the number of bytes written. */
-unsigned int outputSequence(Sequence* sequence,
+int outputSequence(Sequence* sequence,
                             void (*writeFunc)(unsigned char c, void* context),
                             void* context);
 
