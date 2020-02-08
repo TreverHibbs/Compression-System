@@ -22,6 +22,9 @@ void deleteDictDeep(Dict* dict) {
 }
 
 bool searchDict(Dict* dict, Sequence* key, unsigned int* code) {
+    //get the created sequence to find if it is in the dictionary.
+    //If it is in the dictuionary return true and set the code pointer/
+    // if not return false
     Sequence* sequence = (*(dict[key->hash]).table);
     if(sequence == NULL){
         return false;

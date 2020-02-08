@@ -36,10 +36,10 @@ int main(int argc, char **argv){
 
     if(test_method_flag == 0){
         printf("Running newSequence\n");
-        Sequence* mySequence = newSequence('s', 10);
+        Sequence* mySequence = newSequence('s', 65536);
         if(mySequence != NULL){
             printf("success returned pointer\n");
-            printf("the sequence bucket is %d\n", mySequence->bucket);
+            printf("the sequence hash is %llu\n", mySequence->hash);
             printf("the sequence byte is %i\n", mySequence->bytes[0]);
         }else{
             printf("failed\n");
@@ -51,7 +51,7 @@ int main(int argc, char **argv){
         void* out = copySequenceAppending(mySequence, 't', 10);
         if(out != NULL){
             printf("success return sequence\n");
-            printf("bucket is %i\n", mySequence->bucket);
+            printf("hash is %llu\n", mySequence->hash);
             printf("new sequence is %c and %c\n", mySequence->bytes[0], mySequence->bytes[1]);
         }else{
             printf("failed");
