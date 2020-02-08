@@ -49,6 +49,7 @@ bool identicalSequences(Sequence* a, Sequence* b) {
         if(a->bytes[i] != b->bytes[i]){
             return(false);
         }
+        i++;
     }
     return true;
 }

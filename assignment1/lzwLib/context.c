@@ -27,6 +27,8 @@ Context* initContext(char* path){
 
 void deleteContext(Context* context){
 
+    fclose(context->input);
+    fclose(context->output);
     free(context->input);
     free(context->output);
     free(context);

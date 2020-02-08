@@ -60,6 +60,8 @@ int main(int argc, char **argv){
         }else{
             printf("failed");
         }
+
+        deleteSequence(mySequence);
     }else if(test_method_flag == 2){
         printf("Running deleteSequence\n");
         Sequence* mySequence = newSequence('s', 10);
@@ -79,14 +81,25 @@ int main(int argc, char **argv){
         }else{
             printf("failed\n");
         }
+
+        deleteSequence(sequence);
+        deleteContext(context);
     }else if(test_method_flag == 4){
         printf("Running identicalSequences\n");
-        bool out = identicalSequences(NULL, NULL);
+        Sequence* sequence1 = newSequence('s', hash_size);
+        Sequence* sequence2 = newSequence('s', hash_size);
+        printf("sequence1->bytes[0] is %c sequence1->bytes[1] is %c\n", sequence1->bytes[0], sequence1->bytes[1]);
+        printf("sequence2->bytes[0] is %c sequence2->bytes[1] is %c\n", sequence2->bytes[0], sequence2->bytes[1]);
+
+        bool out = identicalSequences(sequence1, sequence2);
         if(out == true){
-            printf("succes returned true\n");
+            printf("success returned true\n");
         }else{
-            printf("failed");
+            printf("failed\n");
         }
+
+        deleteSequence(sequence2);
+        deleteSequence(sequence1);
     }else{
         printf("Invalid test flag\n");
     }
